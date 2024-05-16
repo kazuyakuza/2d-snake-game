@@ -1,6 +1,6 @@
 {
-  "name": "webpack-ejs-ts-bootstraps-scss-ngrok-seed",
-  "version": "1.1.0",
+  "name": "2d-snake-game",
+  "version": "0.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {

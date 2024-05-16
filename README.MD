@@ -1,15 +1,6 @@
 ### Project Description
-Project with webpack configuration to handle
 
-* build dev and prd dist
-* ejs templates [documentation](https://ejs.co/#docs)
-* typescript code
-* bootstraps included
-* css or scss styles
-* asset folder
-* vendor files
-* serve locally with webpack-dev-server
-* serve online with ngrok.com
+Simple implementation of the classic 2D Snake game for website technology.
 
 ### Scripts
 
