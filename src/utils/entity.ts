@@ -1,4 +1,4 @@
-import { Point } from "./point.interface";
+import { Point } from "./point";
 
 export abstract class Entity {
   public get location() { return this._location; }

@@ -1,4 +1,4 @@
-import { Point } from "./point.interface";
+import { Point } from "./point";
 
 type DirectionName = 'none' | 'up' | 'down' | 'left' | 'right';
 
@@ -10,22 +10,22 @@ export class Direction {
   constructor(
     public readonly name: DirectionName = 'none',
   ) {
-    this.point = { x: 0, y: 0 };
+    this.point = Point.zero();
     switch (name) {
       case 'up': {
-        this.point.y = -1;
+        this.point = this.point.setY(-1);
         break;
       }
       case 'down': {
-        this.point.y = 1;
+        this.point = this.point.setY(1);
         break;
       }
       case 'left': {
-        this.point.x = -1;
+        this.point = this.point.setX(-1);
         break;
       }
       case 'right': {
-        this.point.x = 1;
+        this.point = this.point.setX(1);
         break;
       }
     }

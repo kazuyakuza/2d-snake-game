@@ -1,4 +1,5 @@
 import ENV from "../environment";
+import logger from "../utils/logger";
 import { FoodStore } from "./food-store";
 import { Snake } from "./snake";
 
@@ -19,7 +20,7 @@ export class CanvasHandler {
     this.drawFood(food);
   }
 
-  private clear() {
+  public clear() {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 

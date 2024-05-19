@@ -12,8 +12,8 @@ class Environment {
     INITIAL_BODY_PARTS: 4,
     INITIAL_DIRECTION: new Direction(),
   });
-  public readonly GRID_SIZE = 20;
-  public readonly GAME_LOOP_MS = 250;
+  public readonly GRID_SIZE = 10;
+  public readonly GAME_SPEED = 200; // game loop time in ms
 }
 const ENV = Object.freeze(new Environment());
 export default ENV;

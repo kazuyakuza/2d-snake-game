@@ -1,7 +1,6 @@
 import { Entity } from "../utils/entity";
-import { Point } from "../utils/point.interface";
+import { Point } from "../utils/point";
 import { Direction } from "../utils/direction";
-import logger from "../utils/logger";
 
 export class Snake extends Entity {
   private _body: Point[] = [];
@@ -46,10 +45,10 @@ export class Snake extends Entity {
 
   private updateBodyParts() {
     for (let i = this._body!.length - 1; i >= 0; i--) {
-      this._body![i] = {
+      this._body![i] = Point.new({
         x: this.calculatePosX(i),
         y: this.calculatePosY(i),
-      };
+      });
     }
   }
 

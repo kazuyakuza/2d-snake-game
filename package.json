@@ -17,6 +17,7 @@
   "devDependencies": {
     "@ngrok/ngrok": "^1.2.0",
     "@types/bootstrap": "^5.2.10",
+    "@types/chance": "^1.1.6",
     "@types/node": "^20.12.11",
     "@webpack-cli/generators": "^3.0.7",
     "autoprefixer": "^10.4.17",
@@ -47,7 +48,8 @@
     "webpack-merge": "^5.10.0"
   },
   "dependencies": {
-    "bootstrap": "^5.3.2"
+    "bootstrap": "^5.3.2",
+    "chance": "^1.1.11"
   },
   "engines": {
     "node": "20.13.1"
