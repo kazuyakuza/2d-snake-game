@@ -12,7 +12,7 @@ import { Snake } from "./snake";
 
 export class Game {
   private state: 'none' | 'playing' | 'end' = 'none';
-  private prop!: GameProps;
+  private p!: GameProps;
   private loopTimeout?: NodeJS.Timeout;
 
   constructor(
@@ -23,7 +23,7 @@ export class Game {
 
   public start() {
     this.generateProps();
-    this.prop!.ctrl.enable();
+    this.p.ctrl.enable();
     this.state = 'playing';
     this.loopTimeout = setInterval(this.loop.bind(this), ENV.GAME_SPEED);
   }
@@ -33,7 +33,7 @@ export class Game {
       this.canvasWidth / ENV.GRID_SIZE
       // TODO make grid "any" size (can be not square)
     );
-    this.prop = {
+    this.p = {
       player: new Player(),
       ctrl: new PlayerController(),
       canvas: new CanvasHandler(
@@ -61,23 +61,29 @@ export class Game {
     if (this.state !== 'playing') return;
     this.update();
     if (this.state !== 'playing') return;
-    this.prop!.canvas.draw({
-      snake: this.prop.snake,
-      food: this.prop.food,
+    this.p.canvas.draw({
+      snake: this.p.snake,
+      food: this.p.food,
     });
   }
 
   private update() {
     this.applyControllerDirection();
-    this.prop!.snake.move();
+    this.p.snake.move();
     this.checkCollisions();
-    // check food collisions
-    this.prop!.food.rndGenerateFood([0, this.prop.grid.width]);
+    this.p.food.rndGenerateFood([0, this.p.grid.width]);
   }
 
   private checkCollisions() {
-    if (this.prop!.collision.checkSnakeWallCollision(this.prop.snake))
+    if (this.p.collision.checkSnakeWallCollision(this.p.snake))
       this.onSnakeWallCollision();
+    if (this.p.collision.checkSnakeItselfCollision(this.p.snake))
+      this.onItselfCollision();
+    // check food collisions
+  }
+
+  private onItselfCollision() {
+    this.end();
   }
 
   private onSnakeWallCollision() {
@@ -85,13 +91,13 @@ export class Game {
   }
 
   private applyControllerDirection() {
-    this.prop!.snake.direction = this.prop!.ctrl.direction;
+    this.p.snake.direction = this.p.ctrl.direction;
   }
 
   private end() {
     this.state = 'end';
-    this.prop!.ctrl.disable();
+    this.p.ctrl.disable();
     clearInterval(this.loopTimeout);
-    this.prop!.canvas.clear();
+    this.p.canvas.clear();
   }
 }

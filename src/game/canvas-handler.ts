@@ -28,8 +28,8 @@ export class CanvasHandler {
     this.ctx.fillStyle = 'lime';
     for (const bodyPart of snake.body)
       this.ctx.fillRect(
-        bodyPart.x * ENV.GRID_SIZE,
-        bodyPart.y * ENV.GRID_SIZE,
+        bodyPart.location.x * ENV.GRID_SIZE,
+        bodyPart.location.y * ENV.GRID_SIZE,
         ENV.GRID_SIZE,
         ENV.GRID_SIZE,
       );
