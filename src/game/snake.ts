@@ -46,6 +46,10 @@ export class Snake extends Entity {
     this.updateBodyParts();
   }
 
+  public consumeFood() {
+    this.addNewTails(1);
+  }
+
   private addNewTails(bodyParts: number) {
     for (let i = 0; i < bodyParts; i++)
       this._body.push(this.tail);

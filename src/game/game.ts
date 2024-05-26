@@ -79,7 +79,18 @@ export class Game {
       this.onSnakeWallCollision();
     if (this.p.collision.checkSnakeItselfCollision(this.p.snake))
       this.onItselfCollision();
-    // check food collisions
+    this.checkFoodCollisions();
+  }
+
+  private checkFoodCollisions() {
+    for (const food of this.p.food.store)
+      if (this.p.collision.checkCollision([
+        food.location, this.p.snake.location,
+      ])) {
+        this.p.food.consumeFood(food);
+        this.p.snake.consumeFood();
+        return;
+      }
   }
 
   private onItselfCollision() {

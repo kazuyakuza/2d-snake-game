@@ -30,4 +30,8 @@ export class CollisionsDetector {
         return true;
     return false;
   }
+
+  public checkCollision([p1, p2]: Point[]) {
+    return p1.equals(p2);
+  }
 }

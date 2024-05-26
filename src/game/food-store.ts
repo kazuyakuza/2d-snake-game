@@ -1,3 +1,4 @@
+import logger from "../utils/logger";
 import { Point } from "../utils/point";
 import rnd from "../utils/rnd";
 import { Food } from "./food";
@@ -9,7 +10,7 @@ export class FoodStore {
   }
 
   public rndGenerateFood([min, max]: number[]) {
-    if (!rnd.bool({ likelihood: 2 })) return;
+    if (!rnd.bool({ likelihood: 25 })) return;
     this.generateFood([min, max]);
   }
 
@@ -29,6 +30,11 @@ export class FoodStore {
         }
       // TODO handle all locations taken
     } while (locationTaken);
-    this._store.push(new Food(location));
+    const food = new Food(location);
+    this._store.push(food) - 1;
+  }
+
+  public consumeFood(food: Food) {
+    this._store = this._store.filter(f => f.id !== food.id);
   }
 }
