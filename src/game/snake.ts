@@ -22,6 +22,7 @@ export class Snake extends Entity {
   }
   private _direction: Direction;
   public set direction(newDirection: Direction) {
+    if (!this.validateNewDirection(newDirection)) return;
     this._direction = newDirection;
   }
   public get direction() {
@@ -84,5 +85,16 @@ export class Snake extends Entity {
     // TODO add checks
     if (bodyPart === 0) return this._location.y + this._direction!.y;
     return this._body[bodyPart - 1].location.y;
+  }
+
+  private validateNewDirection(newDirection: Direction) {
+    if (this._direction.is('none')) return true;
+    const neck = this._body[1];
+    const newLocation = new Point(
+      this._location.x + newDirection.x,
+      this._location.y + newDirection.y,
+    );
+    return !newLocation.equals(this.head.location)
+      && !newLocation.equals(neck.location);
   }
 }

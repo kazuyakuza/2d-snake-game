@@ -1,4 +1,5 @@
 import ENV from "../environment";
+import { GuiManager } from "../gui/gui-manager";
 import { Grid } from "../utils/grid";
 import logger from "../utils/logger";
 import { Point } from "../utils/point";
@@ -14,6 +15,7 @@ export class Game {
   private state: 'none' | 'playing' | 'end' = 'none';
   private p!: GameProps;
   private loopTimeout?: NodeJS.Timeout;
+  private player1stMove = false;
 
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
@@ -33,6 +35,11 @@ export class Game {
       this.canvasWidth / ENV.GRID_SIZE
       // TODO make grid "any" size (can be not square)
     );
+    const snake = new Snake({
+      location: this.snakeInitialLocation(),
+      bodyParts: ENV.SNAKE.INITIAL_BODY_PARTS,
+      initialDirection: ENV.SNAKE.INITIAL_DIRECTION,
+    });
     this.p = {
       player: new Player(),
       ctrl: new PlayerController(),
@@ -41,13 +48,19 @@ export class Game {
       ),
       grid,
       collision: new CollisionsDetector(grid),
-      snake: new Snake({
-        location: this.snakeInitialLocation(),
-        bodyParts: ENV.SNAKE.INITIAL_BODY_PARTS,
-        initialDirection: ENV.SNAKE.INITIAL_DIRECTION,
-      }),
-      food: new FoodStore(),
+      snake,
+      food: new FoodStore(snake),
+      gui: new GuiManager(),
     };
+    this.listenPlayer1stMove();
+  }
+
+  private listenPlayer1stMove() {
+    const f = () => {
+      this.player1stMove = true;
+      this.p.ctrl.events.removeListener('onKeyDown', f);
+    };
+    this.p.ctrl.events.addListener('onKeyDown', f);
   }
 
   private snakeInitialLocation(): Point {
@@ -65,9 +78,16 @@ export class Game {
       snake: this.p.snake,
       food: this.p.food,
     });
+    this.updateGUI();
+  }
+
+  private updateGUI() {
+    this.p.gui.setLives(this.p.player.lives);
+    this.p.gui.setPoints(this.p.player.points);
   }
 
   private update() {
+    if (!this.player1stMove) return;
     this.applyControllerDirection();
     this.p.snake.move();
     this.checkCollisions();
@@ -89,6 +109,7 @@ export class Game {
       ])) {
         this.p.food.consumeFood(food);
         this.p.snake.consumeFood();
+        this.p.player.addPoints(ENV.FOOD.POINTS_PER_FOOD);
         return;
       }
   }

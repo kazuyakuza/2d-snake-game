@@ -1,3 +1,4 @@
+import { GuiManager } from "../gui/gui-manager";
 import { Grid } from "../utils/grid";
 import { CanvasHandler } from "./canvas-handler";
 import { CollisionsDetector } from "./collisions-detector";
@@ -14,4 +15,5 @@ export interface GameProps {
   collision: CollisionsDetector,
   snake: Snake;
   food: FoodStore;
+  gui: GuiManager;
 }
