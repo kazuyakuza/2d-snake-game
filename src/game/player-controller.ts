@@ -1,7 +1,6 @@
 import * as EventEmitter from "events";
 import ENV from "../environment";
 import { Direction } from "../utils/direction";
-import logger from "../utils/logger";
 
 export class PlayerController {
   private _direction: Direction = new Direction();

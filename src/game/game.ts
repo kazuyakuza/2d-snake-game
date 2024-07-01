@@ -97,9 +97,9 @@ export class Game {
   private checkCollisions() {
     if (this.p.collision.checkSnakeWallCollision(this.p.snake))
       this.onSnakeWallCollision();
-    if (this.p.collision.checkSnakeItselfCollision(this.p.snake))
+    else if (this.p.collision.checkSnakeItselfCollision(this.p.snake))
       this.onItselfCollision();
-    this.checkFoodCollisions();
+    else this.checkFoodCollisions();
   }
 
   private checkFoodCollisions() {
@@ -109,17 +109,31 @@ export class Game {
       ])) {
         this.p.food.consumeFood(food);
         this.p.snake.consumeFood();
-        this.p.player.addPoints(ENV.FOOD.POINTS_PER_FOOD);
+        this.p.player.modifyPoints(ENV.FOOD.POINTS_PER_FOOD);
         return;
       }
   }
 
   private onItselfCollision() {
-    this.end();
+    this.playerLooseLife();
   }
 
   private onSnakeWallCollision() {
-    this.end();
+    this.playerLooseLife();
+  }
+
+  private playerLooseLife() {
+    this.p.player.modifyLives(-1);
+    if (this.p.player.lives < 0) {
+      this.end();
+      return;
+    }
+    this.p.snake.die();
+    this.p.snake.rebirth({
+      location: this.snakeInitialLocation(),
+      bodyParts: ENV.SNAKE.INITIAL_BODY_PARTS,
+      initialDirection: ENV.SNAKE.INITIAL_DIRECTION,
+    });
   }
 
   private applyControllerDirection() {

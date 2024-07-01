@@ -1,7 +1,6 @@
 import { Entity } from "../utils/entity";
 import { Point } from "../utils/point";
 import { Direction } from "../utils/direction";
-import logger from "../utils/logger";
 
 export class Snake extends Entity {
   private _body: {
@@ -20,7 +19,7 @@ export class Snake extends Entity {
   public get tail() {
     return this._body[this._body.length - 1];
   }
-  private _direction: Direction;
+  private _direction!: Direction;
   public set direction(newDirection: Direction) {
     if (!this.validateNewDirection(newDirection)) return;
     this._direction = newDirection;
@@ -38,6 +37,18 @@ export class Snake extends Entity {
   }) {
     // TODO add validations
     super(location);
+    this.birth({
+      bodyParts, location, initialDirection,
+    });
+  }
+
+  private birth({
+    bodyParts, location, initialDirection,
+  }: {
+    bodyParts: number,
+    location: Point,
+    initialDirection: Direction,
+  }) {
     this._direction = initialDirection;
     this._body.push({
       location: location,
@@ -49,6 +60,23 @@ export class Snake extends Entity {
 
   public consumeFood() {
     this.addNewTails(1);
+  }
+
+  public die() {
+    this._body = [];
+  }
+
+  public rebirth({
+    bodyParts, location, initialDirection,
+  }: {
+    bodyParts: number,
+    location: Point,
+    initialDirection: Direction,
+  }) {
+    this._location = location;
+    this.birth({
+      bodyParts, location, initialDirection,
+    });
   }
 
   private addNewTails(bodyParts: number) {

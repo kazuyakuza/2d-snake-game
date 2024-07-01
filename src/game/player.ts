@@ -16,11 +16,13 @@ export class Player {
     this._points = 0;
   }
 
-  public addPoints(pts: number) {
-    this._points += pts;
+  public modifyPoints(pts: number, add = true) {
+    if (add) this._points += pts;
+    else this._points -= pts;
   }
 
-  public addLives(lives: number) {
-    this._lives += lives;
+  public modifyLives(lives: number, add = true) {
+    if (add) this._lives += lives;
+    else this._lives -= lives;
   }
 }
